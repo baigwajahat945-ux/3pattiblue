@@ -7,87 +7,143 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   const articles = getAllArticles();
 
-  // Separate tutorials (root-level) from blog articles
-  const tutorials = articles.filter((a) => a.category !== "Blog");
-  const blogArticles = articles.filter((a) => a.category === "Blog");
-
-  // ── Core pages ──────────────────────────────────────────────────────────────
-  const corePages: MetadataRoute.Sitemap = [
+  // ── Static pages ──────────────────────────────────────────────────────────
+  const staticPages: MetadataRoute.Sitemap = [
+    // Homepage — highest priority
     {
       url: base,
       lastModified: now,
-      priority: 1.0,
       changeFrequency: "weekly",
+      priority: 1.0,
     },
-  ];
 
-  // ── Tutorial / How-To pages (high priority — main content) ──────────────────
-  const tutorialPages: MetadataRoute.Sitemap = tutorials.map((a) => ({
-    url: `${base}${getArticlePath(a)}`,
-    lastModified: new Date(a.updatedAt ?? a.publishedAt),
-    priority: 0.9,
-    changeFrequency: "monthly" as const,
-  }));
+    // Core download / tutorial pages (like 3pattiok.pk Quick Links)
+    {
+      url: `${base}/3-patti-blue-apk-download`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.95,
+    },
+    {
+      url: `${base}/3-patti-blue-for-pc`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
+    {
+      url: `${base}/3-patti-blue-for-ios`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
+    {
+      url: `${base}/3-patti-blue-winning-tricks`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
 
-  // ── Blog listing + blog articles ─────────────────────────────────────────────
-  const blogPages: MetadataRoute.Sitemap = [
+    // How-To / Tutorial pages (like 3pattiok.pk How-To Guides section)
+    {
+      url: `${base}/3-patti-blue-signup`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${base}/3-patti-blue-login`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${base}/3-patti-blue-deposit`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
+    {
+      url: `${base}/3-patti-blue-withdraw`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
+    {
+      url: `${base}/3-patti-blue-bonus`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
+    {
+      url: `${base}/3-patti-blue-vip-program`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${base}/3-patti-blue-ips-exceed-issue`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.75,
+    },
+
+    // Blog listing page
     {
       url: `${base}/blog`,
       lastModified: now,
-      priority: 0.8,
       changeFrequency: "weekly",
+      priority: 0.9,
     },
-    ...blogArticles.map((a) => ({
-      url: `${base}${getArticlePath(a)}`,
-      lastModified: new Date(a.updatedAt ?? a.publishedAt),
-      priority: 0.7,
-      changeFrequency: "monthly" as const,
-    })),
-  ];
 
-  // ── Info / About pages ───────────────────────────────────────────────────────
-  const infoPages: MetadataRoute.Sitemap = [
+    // Legal / info pages (like 3pattiok.pk Legal section)
     {
       url: `${base}/about`,
       lastModified: now,
+      changeFrequency: "yearly",
       priority: 0.5,
-      changeFrequency: "monthly",
     },
     {
       url: `${base}/contact`,
       lastModified: now,
+      changeFrequency: "yearly",
       priority: 0.5,
-      changeFrequency: "monthly",
     },
-  ];
-
-  // ── Legal pages (low priority) ───────────────────────────────────────────────
-  const legalPages: MetadataRoute.Sitemap = [
     {
       url: `${base}/privacy`,
       lastModified: now,
-      priority: 0.3,
       changeFrequency: "yearly",
+      priority: 0.3,
     },
     {
       url: `${base}/terms`,
       lastModified: now,
-      priority: 0.3,
       changeFrequency: "yearly",
+      priority: 0.3,
     },
     {
       url: `${base}/legal`,
       lastModified: now,
-      priority: 0.3,
       changeFrequency: "yearly",
+      priority: 0.3,
     },
     {
       url: `${base}/editorial-policy`,
       lastModified: now,
-      priority: 0.3,
       changeFrequency: "yearly",
+      priority: 0.3,
     },
   ];
 
-  return [...corePages, ...tutorialPages, ...blogPages, ...infoPages, ...legalPages];
+  // ── Dynamic blog / article pages ──────────────────────────────────────────
+  // Only include Blog-category articles here; tutorials are already listed above
+  const blogPages: MetadataRoute.Sitemap = articles
+    .filter((a) => a.category === "Blog")
+    .map((a) => ({
+      url: `${base}${getArticlePath(a)}`,
+      lastModified: new Date(a.updatedAt ?? a.publishedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    }));
+
+  return [...staticPages, ...blogPages];
 }
