@@ -5,7 +5,7 @@ export const SITE_CONFIG = {
   tagline: "3 Patti Blue APK Download Pakistan — Play & Win Real Money",
   description:
     "Download 3 Patti Blue APK for Android, register in minutes, claim welcome bonus, and win real money via EasyPaisa & JazzCash in Pakistan.",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://3pattiblue.pk",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://3pattibluue.pk",
   locale: "en_PK",
   language: "en",
   twitterHandle: "@3PattiBluePK",
